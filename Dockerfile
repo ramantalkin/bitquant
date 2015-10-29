@@ -1,4 +1,4 @@
-FROM mageia:cauldron
+FROM ubuntu:trusty
 MAINTAINER Joseph C Wang <joequant@gmail.com>
 #RUN ["urpmi", "--no-recommends", "--auto", "--auto-update"]
 VOLUME [ "/sys/fs/cgroup", "/var/lib/machines" ]
@@ -6,19 +6,20 @@ RUN echo "ZONE=Asia/Kolkata" > /etc/sysconfig/clock
 # Refresh locale and glibc for missing latin items
 # needed for R to build packages
 
-RUN urpmi.removemedia -a ;\
-    urpmi.addmedia --distrib \
-       --mirrorlist \
-       'http://mirrors.mageia.org/api/mageia.cauldron.x86_64.list' ; \
-    urpmi.addmedia \
-       "Core backup" http://ftp.sunet.se/pub/Linux/distributions/mageia/distrib/cauldron/x86_64/media/core/release ; \
-    urpmi.addmedia \
-       "Core updates backup" http://ftp.sunet.se/pub/Linux/distributions/mageia/distrib/cauldron/x86_64/media/core/updates ; \
-   urpmi --no-recommends --auto --excludedocs urpmi ; \
-   urpmi --replacepkgs --excludedocs locales glibc ; \
-   urpmi --auto-select --auto --no-recommends --no-md5sum --excludedocs ; \
-   urpme --auto-orphans --auto 
-RUN ["urpmi", "--no-recommends", "--no-md5sum", "--excludedocs", "--auto", "sudo", "git", "apache", "apache-mod_suexec", "apache-mod_proxy", "apache-mod_php", "apache-mod_authnz_external", "apache-mod_ssl", "dokuwiki", "python3-flask", "python3-pexpect"]
+#RUN urpmi.removemedia -a ;\
+#    urpmi.addmedia --distrib \
+#       --mirrorlist \
+#       'http://mirrors.mageia.org/api/mageia.cauldron.x86_64.list' ; \
+#    urpmi.addmedia \
+#       "Core backup" http://ftp.sunet.se/pub/Linux/distributions/mageia/distrib/cauldron/x86_64/media/core/release ; \
+#    urpmi.addmedia \
+#       "Core updates backup" http://ftp.sunet.se/pub/Linux/distributions/mageia/distrib/cauldron/x86_64/media/core/updates ; \
+#   urpmi --no-recommends --auto --excludedocs urpmi ; \
+#   urpmi --replacepkgs --excludedocs locales glibc ; \
+#   urpmi --auto-select --auto --no-recommends --no-md5sum --excludedocs ; \
+#   urpme --auto-orphans --auto 
+#RUN ["urpmi", "--no-recommends", "--no-md5sum", "--excludedocs", "--auto", "sudo", "git", "apache", "apache-mod_suexec", "apache-mod_proxy", "apache-mod_php", "apache-mod_authnz_external", "apache-mod_ssl", "dokuwiki", "python3-flask", "python3-pexpect"]
+RUN apt-get update && apt-get install -y wget ca-certificates sudo cron supervisor sudo git apache apache-mod_suexec apache-mod_proxy apache-mod_php apache-mod_authnz_external apache-mod_ssl dokuwiki python3-flask python3-pexpect
 RUN useradd user ;\
    echo 'cubswin:)' | passwd user --stdin ; \
    echo 'cubswin:)' | passwd root --stdin ; \
