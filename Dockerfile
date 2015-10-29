@@ -1,23 +1,8 @@
-Skip to content
-This repository 
-Pull requests
-Issues
-Gist
- @ramantalkin
- Unwatch 1
-  Star 0
- Fork 16 ramantalkin/bitquant
-forked from joequant/bitquant
- Branch: master bitquant/docker/bitstation/Dockerfile
-683e63c  29 days ago
-@joequant joequant fix /var/lib/machines conflict
-1 contributor
-RawBlameHistory    60 lines (57 sloc)  3.09 KB
 FROM mageia:cauldron
 MAINTAINER Joseph C Wang <joequant@gmail.com>
 #RUN ["urpmi", "--no-recommends", "--auto", "--auto-update"]
 VOLUME [ "/sys/fs/cgroup", "/var/lib/machines" ]
-RUN echo "ZONE=Asia/Hong_Kong" > /etc/sysconfig/clock
+RUN echo "ZONE=Asia/Kolkata" > /etc/sysconfig/clock
 # Refresh locale and glibc for missing latin items
 # needed for R to build packages
 
@@ -72,5 +57,3 @@ RUN /usr/bin/systemctl enable bitquant
 
 EXPOSE 80 443
 CMD ["/usr/sbin/init"]
-Status API Training Shop Blog About Pricing
-© 2015 GitHub, Inc. Terms Privacy Security Contact Help
